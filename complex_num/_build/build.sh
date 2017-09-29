@@ -6,3 +6,5 @@ make
 
 # cmake -D COMPONENT=user -P cmake_install.cmake
 cmake -D COMPONENT=developer -P cmake_install.cmake
+
+# make install

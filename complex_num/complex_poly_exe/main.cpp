@@ -1,6 +1,7 @@
 #include "complex_num.h"
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 void read_poly(std::vector<Complex> &coef) {
     std::cout << "Insert coefficients. "
@@ -19,6 +20,11 @@ void read_poly(std::vector<Complex> &coef) {
         }
         std::cout << t << "\n";
         coef.push_back(t);
+    }
+
+    if (coef.empty()) {
+      Complex zero;
+      coef.push_back(zero);
     }
 
     std::cout << "Poly is: \n";
