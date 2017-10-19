@@ -13,7 +13,7 @@ double clamp(double val, double lo, double hi) {
     return std::max(lo, std::min(val, hi));
 }
 
-WinMain::WinMain(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow()), ctx(-1, 1, -1, 1)
+WinMain::WinMain(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow()), ctx(-4, 4, -1.2, 1.2)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_NoSystemBackground, true);
@@ -125,17 +125,79 @@ void WinMain::calc_plot(QSize sz) {
     }
 
     painter.scale(1,-1);
-    QPen penHText(QColor("#00e0fc"));
-    painter.setPen(penHText);
-    float step = 1e-2;
+    QPen penMain(QColor("#00e0fc"));
+    QPen penSecond(QColor("#000000"));
+    painter.setPen(penMain);
+    auto b = QBrush(QColor("#FF2255"));
+    painter.setBrush(b);
 
+    float step = 1e-3;
+
+    float f_max = ya-1;
+    float f_min = yb+1;
+    std::vector<QPoint> max_ponts;
+    std::vector<QPoint> min_ponts;
+    float prev_x = xa - 1;
     while (xa < xb) {
         float xaa = xa + step;
+        if (std::abs(f(xa)) < 1e-3) {
+            painter.drawEllipse(xa*x_scale+x_shift -4 ,
+                                f(xa)*y_scale + y_shift -4 ,
+                                8, 8);
+        }
         painter.drawLine(xa*x_scale+x_shift,
                          f(xa)*y_scale + y_shift,
                          (xaa)*x_scale+x_shift,
                          f(xaa)*y_scale + y_shift);
+
+        auto y = f(xa);
+        if ( y > f_max) {
+            f_max = y;
+            max_ponts.clear();
+        }
+        if (std::abs(y - f_max) < 1e-5) {
+            if (std::abs(prev_x - xa) > step*5) {
+                prev_x = xa;
+                max_ponts.push_back(QPoint(xa*x_scale+x_shift, f(xa)*y_scale + y_shift));
+            }
+        }
+
+        if ( y < f_min) {
+            f_min = y;
+            min_ponts.clear();
+        }
+        if (std::abs(y - f_min) < 1e-5) {
+            if (std::abs(prev_x - xa) > step*5) {
+                prev_x = xa;
+                min_ponts.push_back(QPoint(xa*x_scale+x_shift, f(xa)*y_scale + y_shift));
+            }
+        }
+
         xa = xaa;
+    }
+
+    for (auto it = max_ponts.begin(); it != max_ponts.end(); ++it) {
+        auto p =(*it) - QPoint(2,2);
+        painter.drawEllipse( p, 4, 4);
+
+        painter.scale(1,-1);
+        auto label = QString::number(f_max, 'g', 2);
+        painter.setPen(penSecond);
+        painter.drawText(QRectF(p.x(), -p.y(),  100, 100), label);
+        painter.setPen(penMain);
+        painter.scale(1,-1);
+
+    }
+
+    for (auto it = min_ponts.begin(); it != min_ponts.end(); ++it) {
+        auto p =(*it) - QPoint(2,2);
+        painter.drawEllipse( p, 4, 4);
+        painter.scale(1,-1);
+        auto label = QString::number(f_min, 'g', 2);
+        painter.setPen(penSecond);
+        painter.drawText(QRectF(p.x(), -p.y(),  100, 100), label);
+        painter.setPen(penMain);
+        painter.scale(1,-1);
     }
 }
 
