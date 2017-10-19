@@ -6,10 +6,11 @@
 #include "win_main.h"
 #include "set_range_dialog.h"
 #include <cmath>
+#include "function_to_plot.h"
 
-float f(float x) {
-    return x;
-    return sin(x);
+// note std::clamp avaliable in c++17
+double clamp(double val, double lo, double hi) {
+    return std::max(lo, std::min(val, hi));
 }
 
 WinMain::WinMain(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow()), ctx(-1, 1, -1, 1)
@@ -66,6 +67,7 @@ void WinMain::calc_plot(QSize sz) {
     auto yb = ctx.yb;
 
     painter.translate(w / 2, h / 2);
+    painter.scale(1,-1);
 
     float x_scale = w/(xb-xa);
     float x_shift = -(xa+xb)*x_scale/2;
@@ -80,13 +82,52 @@ void WinMain::calc_plot(QSize sz) {
 
     QFont font("Arial", 12);
     painter.setFont(font);
-    auto label = QString::fromLocal8Bit("0");
-    painter.drawText(QRectF(x_shift-10, y_shift, 100,100),label);
 
+    float axis_zero_x = x_shift;
+    bool is_x_axis_in_range = (-w/2 <= axis_zero_x && axis_zero_x <= w/2);
+    if (!is_x_axis_in_range) {
+        axis_zero_x = -w/2 + 10;
+    }
+
+    float axis_zero_y = -y_shift;
+    bool is_y_axis_in_range = (-h/2 <= axis_zero_y && axis_zero_y <= h/2);
+    if (!is_y_axis_in_range) {
+        axis_zero_y = h/2 - 20;
+    }
+
+
+    painter.scale(1,-1);
+    int n_point_coords = 6;
+    double coord_step = (xb-xa)/n_point_coords;
+    double x = xa;
+    while (x <= xb)
+    {
+        if (std::abs(x) < 1e-5) x = 0;
+        auto label = QString::number(x, 'g', 2);
+        double margin = x == xa ? 0 : -10;
+        painter.drawText(QRectF(x*x_scale+x_shift + margin, axis_zero_y, 100, 100), label);
+        x += coord_step;
+    }
+
+    n_point_coords = 6;
+    coord_step = (yb-ya)/n_point_coords;
+    double y = ya;
+    while (y <= yb)
+    {
+        if (std::abs(y) < 1e-5) {
+            y += coord_step;
+            continue;
+        }
+        auto label = QString::number(y, 'g', 2);
+        double margin = y == ya ? 0 : 20;
+        painter.drawText(QRectF(axis_zero_x, -y*y_scale-y_shift + margin,  100, 100), label);
+        y += coord_step;
+    }
+
+    painter.scale(1,-1);
     QPen penHText(QColor("#00e0fc"));
     painter.setPen(penHText);
     float step = 1e-2;
-    painter.scale(1,-1);
 
     while (xa < xb) {
         float xaa = xa + step;

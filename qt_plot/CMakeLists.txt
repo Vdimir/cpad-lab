@@ -17,6 +17,7 @@ set(SRC_LIST
     win_main.cpp
     set_range_dialog.cpp
     context.h
+    function_to_plot.h
     ${UIC_WRAPPERS}
     ${MOC_WRAPPERS})
 
