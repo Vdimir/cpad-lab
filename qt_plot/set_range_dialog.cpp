@@ -1,6 +1,5 @@
 #include "set_range_dialog.h"
 #include "ui_set_range_dialog.h"
-#include <QtGui/QtGui>
 
 SetRange_Dialog::SetRange_Dialog(QWidget *parent, RangeContext defaultVal) :
     QDialog(parent),

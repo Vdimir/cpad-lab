@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.2)
 
 find_package(Qt5Widgets REQUIRED)
 
+set (CMAKE_CXX_STANDARD 11)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 qt5_wrap_cpp(MOC_WRAPPERS win_main.h set_range_dialog.h)
@@ -24,4 +26,3 @@ set(SRC_LIST
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
 target_link_libraries(qtplot Qt5::Widgets)
-

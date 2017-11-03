@@ -1,7 +1,7 @@
 
-#include <QtGui/QtGui>
 #include <QMessageBox>
 #include <QPainter>
+#include <QResizeEvent>
 #include <QPen>
 #include "win_main.h"
 #include "set_range_dialog.h"
@@ -205,5 +205,3 @@ void WinMain::calc_plot(QSize sz) {
 WinMain::~WinMain() {
     if (ui) delete ui;
 }
-
-
