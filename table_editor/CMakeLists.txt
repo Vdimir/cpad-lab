@@ -11,11 +11,13 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 qt5_wrap_cpp(MOC_WRAPPERS
     tablemodel.h
     win/table_window.h
+    win/main_window.h
     combo-delegate.h
     )
 
 qt5_wrap_ui(UIC_WRAPPERS
     ui/tablewindow.ui
+    ui/mainwindow.ui
     )
 
 set(SRC_LIST
@@ -24,6 +26,7 @@ set(SRC_LIST
     main.cpp
     tablemodel.cpp
     win/table_window.cpp
+    win/main_window.cpp
     combo-delegate.cpp
     ${UIC_WRAPPERS}
     ${MOC_WRAPPERS})

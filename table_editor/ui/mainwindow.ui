@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>TableWindow</class>
- <widget class="QMainWindow" name="TableWindow">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>548</width>
-    <height>415</height>
+    <width>592</width>
+    <height>372</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableView" name="m_pTableView">
+   <widget class="QMdiArea" name="mdiArea">
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>30</y>
-      <width>256</width>
-      <height>192</height>
+      <y>40</y>
+      <width>471</width>
+      <height>251</height>
      </rect>
     </property>
    </widget>
@@ -30,45 +30,41 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>548</width>
+     <width>592</width>
      <height>30</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuAction">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-    <addaction name="actionAdd"/>
-    <addaction name="actionDelete"/>
-   </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>Fi&amp;le</string>
     </property>
-    <addaction name="actionSave"/>
+    <addaction name="actionOpen"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuWindow">
+    <property name="title">
+     <string>Wi&amp;ndow</string>
+    </property>
+    <addaction name="actionClose_All"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuAction"/>
+   <addaction name="menuWindow"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionAdd">
+  <action name="actionOpen">
    <property name="text">
-    <string>&amp;Add</string>
+    <string>Open</string>
    </property>
   </action>
-  <action name="actionDelete">
+  <action name="actionClose_All">
    <property name="text">
-    <string>&amp;Delete</string>
+    <string>Close All</string>
    </property>
   </action>
-  <action name="actionMove">
+  <action name="actionExit">
    <property name="text">
-    <string>Move</string>
-   </property>
-  </action>
-  <action name="actionSave">
-   <property name="text">
-    <string>Save</string>
+    <string>Exit</string>
    </property>
   </action>
  </widget>

@@ -235,6 +235,11 @@ bool TableModel::setData(
     return false;
 } // TableModel::setData()
 
+void TableModel::saveData()
+{
+    this->m_Data.save();
+}
+
 QList<int> TableModel::getComboIdx()
 {
     QList<int> res;

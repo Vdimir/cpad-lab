@@ -20,9 +20,9 @@ class Item {
 
     DatType getType();
     QVariant dat;
+    DatType dtype;
 
   protected:
-    DatType dtype;
 
     Item() {}
 };
@@ -37,7 +37,10 @@ class Data {
     QList<Item::DatType> header;
     QList< QList<Item> > data;
     void addEmpty(int);
+    void save();
+
   protected:
+    QString filename;
     Data();
 
 };

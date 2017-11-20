@@ -38,6 +38,7 @@ class TableModel : public QAbstractTableModel {
 
 
     QList<int> getComboIdx();
+    void saveData();
   private:
     Data m_Data;
 }; // class TableModel

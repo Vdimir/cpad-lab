@@ -2,18 +2,17 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QTableView>
 #include <QDebug>
-#include "win/table_window.h"
 
-#include "tablemodel.h"
+#include "win/main_window.h"
 
 #include "data.h"
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
 
-    Data t = Data::fromFile("/home/vdimir/ext/cross-lab/table_editor/data/foo.csv");
-    TableModel myModel(t);
-    TableWindow win(0, &myModel);
+    //    Data t = Data::fromFile("/home/vdimir/ext/cross-lab/table_editor/data/foo.csv");
+    //    TableModel myModel(t);
+    MainWindow win;
     win.show();
 
     return app.exec();

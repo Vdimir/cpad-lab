@@ -9,7 +9,7 @@ Data::Data()
 Data Data::fromFile(QString filename)
 {
     Data t;
-
+    t.filename = filename;
     QFile file(filename);
 
     if (!file.open(QIODevice::ReadOnly)) {
@@ -18,10 +18,7 @@ Data Data::fromFile(QString filename)
 
     QTextStream ts(&file);
 
-
-
     QString s = ts.readLine();
-
     QStringList headStr = s.split(",");
 
     QList<Item::DatType> header;
@@ -140,6 +137,60 @@ void Data::addEmpty(int n)
     this->data.insert(n, row);
 }
 
+void Data::save()
+{
+    QFile file(filename);
+
+    if (!file.open(QIODevice::WriteOnly)) {
+        throw BadFileError("Cannot save file!");
+    }
+
+
+    QTextStream stream( &file );
+
+    QStringList row;
+
+    for (auto h = header.begin(); h != header.end(); ++h) {
+        switch (*h) {
+            case Item::DatType::Bool:
+                row << "bool";
+                break;
+
+            case Item::DatType::Str:
+                row << "string";
+                break;
+
+            case Item::DatType::Var:
+                row << "variant";
+                break;
+
+            case Item::DatType::Int:
+                row << "int";
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    stream << row.join(",") << endl;
+    row.clear();
+
+    for (auto r = data.begin(); r != data.end(); ++r) {
+        for (auto i = r->begin(); i != r->end(); ++i) {
+            if (i->dtype == Item::DatType::Var) {
+                row << vars[i->dat.toInt()];
+            } else {
+                row << i->dat.toString();
+            }
+        }
+
+        stream << row.join(",") << endl;
+        row.clear();
+    }
+
+    file.close();
+}
 
 const QList< QList<Item> >& Data::getData() const
 {

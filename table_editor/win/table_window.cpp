@@ -2,17 +2,18 @@
 #include "table_window.h"
 #include "tablemodel.h"
 #include "combo-delegate.h"
+#include <QDebug>
+#include <QCloseEvent>
+#include <QMessageBox>
 
-TableWindow::TableWindow(QWidget* parent, TableModel* model)
-    : QMainWindow(parent)
+TableWindow::TableWindow(QWidget* parent, Data dataModel)
+    : QMainWindow(parent), m_pTableModel(new TableModel(dataModel))
 {
     setupUi(this);
 
-    m_pTableModel = model;
-
     m_pTableView->setModel(m_pTableModel);
 
-    auto comboIdxs = model->getComboIdx();
+    auto comboIdxs = m_pTableModel->getComboIdx();
 
     for (auto i = comboIdxs.begin(); i != comboIdxs.end(); ++i) {
         ComboDelegate* pDelegate = new ComboDelegate(m_pTableModel);
@@ -33,7 +34,8 @@ TableWindow::TableWindow(QWidget* parent, TableModel* model)
     //        this, SLOT(close()));
 
     m_pTableView->verticalHeader()->hide();
-    //    QObject::connect(ui->action_Exit, SIGNAL(triggered()), qApp, SLOT(quit()));
+
+    //    setAttribute(Qt::WA_DeleteOnClose);
 }
 
 
@@ -44,7 +46,6 @@ void TableWindow::on_actionAdd_triggered()
     QModelIndex indexNew = m_pTableModel->index(cnRow, 0);
     m_pTableView->setCurrentIndex(indexNew);
 }
-
 
 
 void TableWindow::on_actionDelete_triggered()
@@ -60,19 +61,38 @@ void TableWindow::on_actionDelete_triggered()
     }
 }
 
-
-void TableWindow::on_actionMove_triggered()
+void TableWindow::closeEvent (QCloseEvent* event)
 {
-    IntSet rows;
-    getSelectedRows(rows);
-    IntSet::iterator
-    i = rows.begin(),
-    e = rows.end();
+    QMessageBox::StandardButton resBtn =
+        QMessageBox::question( this, tr("Save changes?"),
+                               QString("Save changes in %1?").arg(this->windowTitle()),
+                               QMessageBox::No | QMessageBox::Yes,
+                               QMessageBox::Yes);
 
-    for (int n = 0; i != e; ++ i, ++ n) {
-        m_pTableModel->moveRow(QModelIndex(), *i, QModelIndex(), n);
+    if (resBtn == QMessageBox::Yes) {
+        on_actionSave_triggered();
     }
+
+
 }
+
+void TableWindow::on_actionSave_triggered()
+{
+    m_pTableModel->saveData();
+}
+
+//void TableWindow::on_actionMove_triggered()
+//{
+//    IntSet rows;
+//    getSelectedRows(rows);
+//    IntSet::iterator
+//    i = rows.begin(),
+//    e = rows.end();
+
+//    for (int n = 0; i != e; ++ i, ++ n) {
+//        m_pTableModel->moveRow(QModelIndex(), *i, QModelIndex(), n);
+//    }
+//}
 
 
 void TableWindow::getSelectedRows(IntSet& rRows)
@@ -87,5 +107,5 @@ void TableWindow::getSelectedRows(IntSet& rRows)
 
 TableWindow::~TableWindow()
 {
-    delete m_pTableView;
+    delete m_pTableModel;
 }

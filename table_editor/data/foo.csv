@@ -1,8 +1,4 @@
-int,string,variant,bool,variant
-5,foo,var1,true,lol
-6,bar,var2,false,rofl
-
-666,mdfsdnm jsdfhm, ok,true,pop
-1,mdfsdnm jsdfhm, ok,true,pop
-2,mdfsdnm jsdfhm, ok,true,pop
-3,mdfsdnm jsdfhm, ok,true,pop
+int,string,variant,bool,int
+1,Foobar,one,true,5
+2,BarBiz,two,false,8
+3,Ok,one,false,2
