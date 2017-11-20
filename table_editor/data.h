@@ -36,6 +36,7 @@ class Data {
     QStringList vars;
     QList<Item::DatType> header;
     QList< QList<Item> > data;
+    void addEmpty(int);
   protected:
     Data();
 

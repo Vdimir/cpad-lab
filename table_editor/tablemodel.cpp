@@ -3,12 +3,11 @@
 #include <QTime>
 #include <QTimer>
 #include <QPushButton>
+#include <QDebug>
 
 TableModel::TableModel(Data data) : m_Data(data)
 {
 }
-
-
 
 const QStringList& TableModel::getItemNames() const
 {
@@ -74,8 +73,7 @@ bool TableModel::insertRows(
     beginInsertRows(QModelIndex(), nRow, nRow + nCount - 1);
 
     for (int i = 0; i < nCount; ++ i) {
-        //        m_Data.data.insert(nRow, Data());
-        // TODO
+        m_Data.addEmpty(nRow);
     }
 
     endInsertRows();

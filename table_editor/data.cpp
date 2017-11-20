@@ -109,6 +109,38 @@ Data Data::fromFile(QString filename)
 }
 
 
+void Data::addEmpty(int n)
+{
+    QList<Item> row;
+
+    for (auto i = header.begin(); i != header.end(); ++i) {
+        switch (*i) {
+            case Item::DatType::Bool:
+                row << Item::fromBool(true);
+                break;
+
+            case Item::DatType::Int:
+                row << Item::fromInt(0);
+                break;
+
+            case Item::DatType::Str:
+                row << Item::fromSring(QString(""));
+                break;
+
+            case Item::DatType::Var:
+                row << Item::fromVar(0);
+                break;
+
+            default:
+                throw std::exception();
+                break;
+        }
+    }
+
+    this->data.insert(n, row);
+}
+
+
 const QList< QList<Item> >& Data::getData() const
 {
     return data;

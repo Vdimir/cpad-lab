@@ -2,7 +2,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QTableView>
 #include <QDebug>
-#include "win/main_window.h"
+#include "win/table_window.h"
 
 #include "tablemodel.h"
 
@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 
     Data t = Data::fromFile("/home/vdimir/ext/cross-lab/table_editor/data/foo.csv");
     TableModel myModel(t);
-    MainWindow win(0, &myModel);
+    TableWindow win(0, &myModel);
     win.show();
 
     return app.exec();
