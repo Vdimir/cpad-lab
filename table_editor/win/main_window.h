@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow, Ui::MainWindow {
     void on_actionOpen_triggered();
     void on_actionClose_All_triggered();
     void on_actionExit_triggered();
+    void on_actionAbout_triggered();
 };
 
 #endif // MAIN_WINDOW_H
