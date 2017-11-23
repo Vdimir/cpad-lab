@@ -17,6 +17,7 @@ class Item {
     static Item fromBool(bool v);
     static Item fromSring(QString v);
     static Item fromVar(int v);
+    static Item createDefault(DatType type);
 
     DatType getType();
     QVariant dat;

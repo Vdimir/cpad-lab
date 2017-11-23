@@ -52,6 +52,8 @@ Data Data::fromFile(QString filename)
 
     QStringList variants;
 
+    int rowWidth = header.size();
+
     while (!ts.atEnd()) {
         s = ts.readLine();
         QStringList datStr = s.split(",");
@@ -61,13 +63,20 @@ Data Data::fromFile(QString filename)
             continue;
         }
 
-        if (datStr.size() != header.size()) {
-            throw BadFileError("Error while reading file");
-        }
+        //        if (datStr.size() != header.size()) {
+        //            throw BadFileError("Error while reading file");
+        //        }
 
         QList<Item> row;
 
-        for (int i = 0; i != header.size(); ++i) {
+        rowWidth = std::max(rowWidth, datStr.size());
+
+        while (header.size() < rowWidth) {
+            // add default type for unknown columns
+            header << Item::DatType::Str;
+        }
+
+        for (int i = 0; i != datStr.size(); ++i) {
             switch (header[i]) {
                 case Item::DatType::Bool:
                     row << Item::fromBool(datStr[i] == "true");
@@ -98,6 +107,16 @@ Data Data::fromFile(QString filename)
         t.data << row;
     } // while not eof
 
+    for (auto r = t.data.begin(); r != t.data.end(); r++) {
+        for (int i = r->size(); i != rowWidth; ++i) {
+            (*r) << Item::createDefault(header[i]);
+        }
+    }
+
+    if (variants.empty()) {
+        variants << "None";
+    }
+
     t.vars = variants;
     t.header = header;
 
@@ -112,27 +131,7 @@ void Data::addEmpty(int n)
     QList<Item> row;
 
     for (auto i = header.begin(); i != header.end(); ++i) {
-        switch (*i) {
-            case Item::DatType::Bool:
-                row << Item::fromBool(true);
-                break;
-
-            case Item::DatType::Int:
-                row << Item::fromInt(0);
-                break;
-
-            case Item::DatType::Str:
-                row << Item::fromSring(QString(""));
-                break;
-
-            case Item::DatType::Var:
-                row << Item::fromVar(0);
-                break;
-
-            default:
-                throw std::exception();
-                break;
-        }
+        row << Item::createDefault(*i);
     }
 
     this->data.insert(n, row);
@@ -198,6 +197,26 @@ const QList< QList<Item> >& Data::getData() const
     return data;
 }
 
+
+Item Item::createDefault(Item::DatType type)
+{
+    switch (type) {
+        case Item::DatType::Bool:
+            return Item::fromBool(true);
+
+        case Item::DatType::Str:
+            return Item::fromSring(QString(""));
+
+        case Item::DatType::Var:
+            return Item::fromVar(0);
+
+        case Item::DatType::Int:
+            return Item::fromInt(0);
+
+        default:
+            throw std::exception();
+    }
+}
 
 Item Item::fromInt(int v)
 {
