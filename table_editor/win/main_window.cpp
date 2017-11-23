@@ -33,8 +33,8 @@ void MainWindow::on_actionOpen_triggered()
 
     } catch (BadFileError& err) {
         QMessageBox msgBox;
-        msgBox.setText("Error while open file!");
-        msgBox.setInformativeText(err.what());
+        msgBox.setText(tr("Error while open file!"));
+        msgBox.setInformativeText(tr("File have wrong format."));
         msgBox.setStandardButtons(QMessageBox::Ok);
         int ret = msgBox.exec();
     }
@@ -42,12 +42,12 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    auto about_txt = QString::fromLocal8Bit("Application for editing csv files\n"
-                                            "First row must contain datatypes for columnns\n"
-                                            "Possible datatypes:\n"
-                                            "\"int\",\"string\",\"variant\",\"bool\"");
-    auto title_txt = QString::fromLocal8Bit("Qt Csv Table Editor");
-    QMessageBox::about(this, title_txt, about_txt);
+    auto about_txt = tr("Application for editing csv files\n"
+                        "First row must contain datatypes for columnns\n"
+                        "Possible datatypes:\n"
+                        "\"int\",\"string\",\"variant\",\"bool\"");
+
+    QMessageBox::about(this, tr("Qt Csv Table Editor"), about_txt);
 }
 
 void MainWindow::on_actionClose_All_triggered()

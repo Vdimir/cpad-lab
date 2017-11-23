@@ -29,7 +29,6 @@ class Item {
 
 
 class Data {
-
   public:
     static Data fromFile(QString filename);
     const QList< QList<Item> >& getData() const;
@@ -39,6 +38,7 @@ class Data {
     void addEmpty(int);
     void save();
 
+    ~Data() {}
   protected:
     QString filename;
     Data();

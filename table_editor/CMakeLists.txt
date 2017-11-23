@@ -2,7 +2,7 @@ project(CsvTableEditor)
 
 cmake_minimum_required(VERSION 3.2)
 
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt5 REQUIRED Widgets LinguistTools)
 
 set (CMAKE_CXX_STANDARD 11)
 
@@ -31,6 +31,26 @@ set(SRC_LIST
     ${UIC_WRAPPERS}
     ${MOC_WRAPPERS})
 
-add_executable(${PROJECT_NAME} ${SRC_LIST})
+#add_definitions(-DQT_NO_CAST_FROM_ASCII)
+set(FILES_TO_TRANSLATE ${SRC_LIST})
+
+set(TS_FILES translations/lang_ru_RU.ts translations/lang_en_US.ts)
+
+option(UPDATE_TRANSLATIONS "Update source translation (files translations/*.ts)." ON)
+
+if(UPDATE_TRANSLATIONS)
+    message(STATUS "UPDATE_TRANSLATIONS option is set.")
+    qt5_create_translation(QM_FILES ${FILES_TO_TRANSLATE} ${TS_FILES})
+else()
+    qt5_add_translation(QM_FILES ${TS_FILES})
+endif()
+
+add_custom_target(translations DEPENDS ${QM_FILES})
+set_property(DIRECTORY PROPERTY CLEAN_NO_CUSTOM TRUE)
+
+qt5_add_resources(QRC_WRAPPERS resources.qrc OPTIONS -no-compress)
+
+add_executable(${PROJECT_NAME} ${SRC_LIST} ${QRC_WRAPPERS})
 
 target_link_libraries(CsvTableEditor Qt5::Widgets)
+

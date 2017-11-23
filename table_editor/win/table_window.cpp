@@ -65,7 +65,7 @@ void TableWindow::closeEvent (QCloseEvent* event)
 {
     QMessageBox::StandardButton resBtn =
         QMessageBox::question( this, tr("Save changes?"),
-                               QString("Save changes in %1?").arg(this->windowTitle()),
+                               tr("Save changes in %1?").arg(this->windowTitle()),
                                QMessageBox::No | QMessageBox::Yes,
                                QMessageBox::Yes);
 
