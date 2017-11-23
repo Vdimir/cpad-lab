@@ -54,3 +54,16 @@ add_executable(${PROJECT_NAME} ${SRC_LIST} ${QRC_WRAPPERS})
 
 target_link_libraries(CsvTableEditor Qt5::Widgets)
 
+install(TARGETS CsvTableEditor RUNTIME DESTINATION bin)
+install(FILES ${QM_FILES} DESTINATION translations)
+
+get_property(LIB_QT5CORE_PATH TARGET Qt5::Core PROPERTY IMPORTED_LOCATION_RELEASE)
+get_filename_component(QT_LIBRARY_DIR "${LIB_QT5CORE_PATH}" DIRECTORY)
+set(EXE_PATH bin/CsvTableEditor${CMAKE_EXECUTABLE_SUFFIX})
+include(DeployQt4)
+install_qt4_executable(
+        "${EXE_PATH}" # executable file
+        "" # modules
+        "" # libraries
+        "${QT_LIBRARY_DIR}") # directories for libraries search
+
