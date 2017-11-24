@@ -14,6 +14,11 @@ class MainWindow : public QMainWindow, Ui::MainWindow {
     ~MainWindow();
 
   private:
+
+   QMenu* menu;
+   QAction *dummyaction;
+   QMenu* m_pSubMenu;
+   
   private slots:
     void on_actionOpen_triggered();
     void on_actionClose_All_triggered();

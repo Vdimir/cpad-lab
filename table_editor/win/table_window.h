@@ -12,26 +12,31 @@
 class TableWindow : public QMainWindow, public Ui::TableWindow {
     Q_OBJECT
   public:
-    TableWindow(QWidget*, Data);
+
+    TableWindow(QWidget* , Data , QMenu *);
     ~TableWindow();
     void closeEvent (QCloseEvent* event);
+    void addMenuAction(QAction* act);
 
+  public slots:
+    void activateWindow();
   protected:
 
   private slots:
     void on_actionAdd_triggered();
     void on_actionDelete_triggered();
     void on_actionSave_triggered();
-    //    void on_actionMove_triggered();
 
 
   private:
     TableModel* m_pTableModel;
+    QAction* m_act;
+
+    QMenu *parent_menuWindow;
 
     typedef std::set <int> IntSet;
 
     void getSelectedRows(IntSet& rRows);
-
 };
 
 #endif // WINMAIN_H

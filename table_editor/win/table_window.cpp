@@ -6,8 +6,9 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 
-TableWindow::TableWindow(QWidget* parent, Data dataModel)
-    : QMainWindow(parent), m_pTableModel(new TableModel(dataModel))
+TableWindow::TableWindow(QWidget* parent, Data dataModel, QMenu *parent_menuWindow)
+    : QMainWindow(parent), m_pTableModel(new TableModel(dataModel)),
+    m_act(0), parent_menuWindow(parent_menuWindow)
 {
     setupUi(this);
 
@@ -21,21 +22,13 @@ TableWindow::TableWindow(QWidget* parent, Data dataModel)
     }
 
     m_pTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    //    m_pTableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    //    m_pTableView->setDragEnabled(true);
-    //    m_pTableView->setAcceptDrops(true);
-    //    m_pTableView->setDropIndicatorShown(true);
-    //    m_pTableView->setSortingEnabled(true);
-    //    m_pTableView->sortByColumn(0, Qt::AscendingOrder);
+
     setCentralWidget(m_pTableView);
-    //
-    //    connect(
-    //        m_pActionExit, SIGNAL(triggered()),
-    //        this, SLOT(close()));
+
 
     m_pTableView->verticalHeader()->hide();
 
-    //    setAttribute(Qt::WA_DeleteOnClose);
+    setAttribute(Qt::WA_DeleteOnClose);
 }
 
 
@@ -73,6 +66,10 @@ void TableWindow::closeEvent (QCloseEvent* event)
         on_actionSave_triggered();
     }
 
+    if (parent_menuWindow && m_act)
+    {
+      parent_menuWindow->removeAction(m_act);
+    }
 
 }
 
@@ -94,6 +91,18 @@ void TableWindow::on_actionSave_triggered()
 //    }
 //}
 
+void TableWindow::activateWindow() {
+    this->show();
+    this->setWindowState(Qt::WindowActive) ;
+    this->raise();
+    this->setFocus();
+}
+
+void TableWindow::addMenuAction(QAction* act) {
+    m_act = act;
+    connect(m_act, &QAction::triggered, this,
+      &TableWindow::activateWindow);
+}
 
 void TableWindow::getSelectedRows(IntSet& rRows)
 {
@@ -107,5 +116,6 @@ void TableWindow::getSelectedRows(IntSet& rRows)
 
 TableWindow::~TableWindow()
 {
+    if (m_act) delete m_act;
     delete m_pTableModel;
 }

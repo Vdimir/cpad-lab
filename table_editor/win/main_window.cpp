@@ -25,11 +25,18 @@ void MainWindow::on_actionOpen_triggered()
     try {
         Data t = Data::fromFile(fileName);
 
-        TableWindow* child = new TableWindow(this, t);
+        QFileInfo fi(fileName);
+
+        TableWindow* child = new TableWindow(this, t, menuWindow);
         child->setWindowTitle(fileName);
 
         mdiArea->addSubWindow(child);
         child->show();
+
+        auto act = new QAction(fi.fileName(), this);
+        menuWindow->addAction(act);
+        child->addMenuAction(act);
+
 
     } catch (BadFileError& err) {
         QMessageBox msgBox;
@@ -64,5 +71,4 @@ void MainWindow::on_actionExit_triggered()
 
 MainWindow::~MainWindow()
 {
-
 }
