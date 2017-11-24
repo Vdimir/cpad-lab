@@ -95,7 +95,7 @@ Possible datatypes:
     <message>
         <location filename="../build/ui_tablewindow.h" line="88"/>
         <source>Save</source>
-        <translation>Созранить</translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <location filename="../build/ui_tablewindow.h" line="89"/>
