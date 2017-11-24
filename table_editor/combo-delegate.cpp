@@ -1,7 +1,8 @@
+
+#include <QComboBox>
 #include "combo-delegate.h"
 #include "tablemodel.h"
 
-#include <QtWidgets>
 ComboDelegate::ComboDelegate(QObject* pParent)
     : QStyledItemDelegate(pParent)
 {
