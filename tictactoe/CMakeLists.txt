@@ -9,7 +9,10 @@ set (CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 qt5_wrap_cpp(MOC_WRAPPERS
-mainwindow.h
+    mainwindow.h
+    game.h
+    clientgame.h
+    servergame.h
 )
 qt5_wrap_ui(UIC_WRAPPERS
   mainwindow.ui
@@ -18,10 +21,16 @@ qt5_wrap_ui(UIC_WRAPPERS
 set(SRC_LIST
     main.cpp
     mainwindow.cpp
+    game.cpp
+    clientgame.cpp
+    servergame.cpp
+    tictactoe.h
+#    netsession.h
+    netsession.cpp
     ${UIC_WRAPPERS}
     ${MOC_WRAPPERS})
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
 
-target_link_libraries(tictactoe Qt5::Widgets)
+target_link_libraries(tictactoe Qt5::Widgets Qt5::Network)

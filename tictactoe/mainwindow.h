@@ -1,30 +1,31 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef SERVERWINDOW_H
+#define SERVERWINDOW_H
 
 #include <QMainWindow>
-#include <QTcpServer>
-#include <QTcpSocket>
+
+#include <game.h>
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
+  public:
+    explicit MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
-private:
-    Ui::MainWindow *ui;
 
-    QTcpServer *tcpServer;
-    int server_status;
-    
-slots:
-  void newConnection():
+    bool setupServer();
+    bool setupClient();
+
+  private:
+    Ui::MainWindow* ui;
+    Game* game;
+
+  private slots:
+    void startGamePressed();
 };
 
-#endif // MAINWINDOW_H
+#endif // SERVERWINDOW_H
