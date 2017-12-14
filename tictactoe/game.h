@@ -12,10 +12,20 @@ class Game : public QObject {
   public:
     explicit Game(QObject* parent = 0);
     TicTacToeGame tic;
+    CellState myFigure;
+    int turnNumber;
+
+    virtual ~Game();
+
+    QTcpSocket* m_Socket;
+
   signals:
+    void youTurn(bool);
+    void statusChanged(QString);
 
   public slots:
-    virtual void ping() = 0;
+    virtual void new_turn(QString turn);
+    void on_readyRead();
 };
 
 

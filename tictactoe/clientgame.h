@@ -11,15 +11,12 @@ class ClientGame: public Game {
   public:
     explicit ClientGame(QObject* parent = 0);
 
-    QTcpSocket* m_pSocket;
 
     QNetworkSession* m_pSession;
 
     void new_connect();
 
   public slots:
-    void ping();
-    void on_readyRead();
     void on_connected();
     void on_sessionOpened();
 };

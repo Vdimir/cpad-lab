@@ -15,13 +15,7 @@ class ServerGame: public Game {
 
     QNetworkSession* m_pSession;
     QTcpServer* m_pServer;
-    QTcpSocket* pClientSocket;
   public slots:
-    //    void newConnection();
-    //    void readClient();
-
-    void on_readyRead();
-    void ping();
 
     void on_sessionOpened();
     void on_newConnection();

@@ -1,5 +1,8 @@
 #include "servergame.h"
 #include <QDataStream>
+#include <assert.h>
+
+#include <QDateTime>
 
 ServerGame::ServerGame(QObject* parent) : Game(parent)
 {
@@ -25,52 +28,22 @@ void ServerGame::on_sessionOpened()
         this, &ServerGame::on_newConnection);
 
     if (!m_pServer->listen(QHostAddress::Any, 33333)) {
-        QString strErrors;// = m_pTextEditErrors->toPlainText();
+        QString strErrors;
         strErrors += QString("Error: ") + m_pServer->errorString();
-
         qDebug() << strErrors;
     }
+
 }
 
 
 void ServerGame::on_newConnection()
 {
-    qDebug() << "new connection";
-    pClientSocket = m_pServer->nextPendingConnection();
+    m_Socket = m_pServer->nextPendingConnection();
     connect(
-        pClientSocket, &QAbstractSocket::disconnected,
-        pClientSocket, &QObject::deleteLater);
+        m_Socket, &QAbstractSocket::disconnected,
+        m_Socket, &QObject::deleteLater);
 
     connect(
-        pClientSocket, &QIODevice::readyRead,
+        m_Socket, &QIODevice::readyRead,
         this, &ServerGame::on_readyRead);
-}
-
-void ServerGame::on_readyRead()
-{
-    QTcpSocket* pClientSocket =
-        qobject_cast <QTcpSocket*> (sender());
-
-    if (!pClientSocket) {
-        return;
-    }
-
-    QDataStream inout(pClientSocket);
-    inout.startTransaction();
-    QString strChatLine;
-    inout >> strChatLine;
-    qDebug() << strChatLine;
-
-    if (!inout.commitTransaction()) {
-        return;
-    }
-
-}
-
-
-void ServerGame::ping()
-{
-    QDataStream inout(pClientSocket);
-    inout << QString("from server");
-
 }

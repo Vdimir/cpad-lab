@@ -2,40 +2,38 @@
 #define GAME_H__
 
 #include <vector>
+#include <assert.h>
 
 enum CellState {
-    None,
-    Cross,
-    Zero
+    None = 0,
+    Cross = 1,
+    Zero = 2
 };
 
-#define FIELD_SIZE 3
+#define FIELD_SIZE 9
+#define FIELD_WIDTH 3
 
 class TicTacToeGame {
 
   public:
-    CellState
-    field[FIELD_SIZE][FIELD_SIZE] = { { None, None, None },
-        { None, None, None },
-        { None, None, None }
-    };
+    CellState field[FIELD_SIZE];
     /*
      0 1 2
      3 4 5
      6 7 8
     */
 
-    TicTacToeGame() {
-    }
+    TicTacToeGame() : field {
+        None, None, None,
+        None, None, None,
+        None, None, None
+    } {}
 
-    bool isEmpty(int x, int y) {
-        return field[x][y] == None;
-    }
 
     CellState allEqual(int idx_a, int idx_b, int idx_c) {
-        int a = field[idx_a / FIELD_SIZE][idx_a % FIELD_SIZE];
-        int b = field[idx_b / FIELD_SIZE][idx_b % FIELD_SIZE];
-        int c = field[idx_c / FIELD_SIZE][idx_c % FIELD_SIZE];
+        CellState a = field[idx_a ];
+        CellState b = field[idx_b ];
+        CellState c = field[idx_c ];
 
         if (a == b && b == c) {
             return a;
@@ -66,12 +64,29 @@ class TicTacToeGame {
         return None;
     }
 
-    bool setCell(int x, int y, CellState newState) {
-        assert(0 < x && x < FIELD_SIZE);
-        assert(0 < y && y < FIELD_SIZE);
+    CellState get(int f) {
+        assert(0 <= f && f < FIELD_SIZE);
+        return this->field[f];
+    }
 
-        if (field[x][y] == None) {
-            field[x][y] = newState;
+    CellState opposeTo(CellState s) {
+
+        if (s == Cross) {
+            return Zero;
+        }
+
+        if  (s == Zero) {
+            return Cross;
+        }
+
+        return None;
+    }
+
+    bool setCell(int f,  CellState newState) {
+        assert(0 <= f && f < FIELD_SIZE);
+
+        if (field[f] == None) {
+            field[f] = newState;
             return true;
         }
 

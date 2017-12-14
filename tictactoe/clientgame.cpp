@@ -22,46 +22,25 @@ ClientGame::ClientGame(QObject* parent) : Game(parent)
 
 void ClientGame::new_connect()
 {
-    m_pSocket->connectToHost(
+    m_Socket->connectToHost(
         "127.0.0.1",
         33333);
 }
 
 void ClientGame::on_sessionOpened()
 {
-    m_pSocket = new QTcpSocket(this);
+    m_Socket = new QTcpSocket(this);
     connect(
-        m_pSocket, &QAbstractSocket::connected,
+        m_Socket, &QAbstractSocket::connected,
         this, &ClientGame::on_connected);
     connect(
-        m_pSocket, &QIODevice::readyRead,
+        m_Socket, &QIODevice::readyRead,
         this, &ClientGame::on_readyRead);
 }
 
 void ClientGame::on_connected()
 {
-    QDataStream inout(m_pSocket);
-    inout << QString("oooooooook");
-}
-
-void ClientGame::on_readyRead()
-{
-    QDataStream inout(m_pSocket);
-    inout.startTransaction();
-    QString strChat;
-    inout >> strChat;
-
-    if (!inout.commitTransaction()) {
-        return;
-    }
-
-    qDebug() << strChat;
-}
-
-
-void ClientGame::ping()
-{
-    QDataStream inout(m_pSocket);
-    qDebug() << "Send data to server";
-    inout << QString("from client");
+    QDataStream inout(m_Socket);
+    QString initStr;
+    inout << QString("NEWCLIENT");
 }
