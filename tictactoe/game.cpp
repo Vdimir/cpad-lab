@@ -30,18 +30,28 @@ void Game::new_turn(QString strturn)
     inout << strturn;
 }
 
+void Game::disconnect() {
+    QDataStream inout(m_Socket);
+    inout << QString("BYE");
+}
+
 void Game::on_readyRead()
 {
     QDataStream inout(m_Socket);
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 5, 9)
     inout.startTransaction();
+#endif
+
     QString strChatLine;
     inout >> strChatLine;
     qDebug() << strChatLine;
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 5, 9)
     if (!inout.commitTransaction()) {
         return;
     }
+#endif
 
     if (strChatLine == "NEWCLIENT") {
         qsrand (QDateTime::currentMSecsSinceEpoch());
@@ -71,6 +81,14 @@ void Game::on_readyRead()
     if (strChatLine == "ZERO") {
         QDataStream ds(m_Socket);
         this->myFigure = Zero;
+        emit youTurn(false);
+        return;
+    }
+
+    if (strChatLine == "BYE") {
+        this->myFigure = None;
+        this->tic = TicTacToeGame();
+        emit statusChanged("player disconnected...");
         emit youTurn(false);
         return;
     }

@@ -48,6 +48,7 @@ void MainWindow::enableBtns(bool en)
         btns[i]->setEnabled(en);
 
         if (game != 0)
+        {
             switch (game->tic.get(i)) {
                 case None:
                     btns[i]->setText("*");
@@ -66,6 +67,9 @@ void MainWindow::enableBtns(bool en)
                 default:
                     break;
             }
+        } else {
+          btns[i]->setText("*");
+        }
 
     }
 }
@@ -73,8 +77,12 @@ void MainWindow::enableBtns(bool en)
 void MainWindow::startGamePressed()
 {
     if (game) {
-        delete game;
-        game = 0;
+        game->disconnect();
+        // delete game;
+        // game = 0;
+
+        game->myFigure = None;
+        game->tic = TicTacToeGame();
         enableBtns(false);
     }
 

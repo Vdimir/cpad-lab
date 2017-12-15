@@ -3,6 +3,7 @@
 #include <assert.h>
 
 #include <QDateTime>
+#include <QMessageBox>
 
 ServerGame::ServerGame(QObject* parent) : Game(parent)
 {
@@ -30,6 +31,8 @@ void ServerGame::on_sessionOpened()
     if (!m_pServer->listen(QHostAddress::Any, 33333)) {
         QString strErrors;
         strErrors += QString("Error: ") + m_pServer->errorString();
+        QMessageBox::critical(0, "Error", strErrors);
+
         qDebug() << strErrors;
     }
 

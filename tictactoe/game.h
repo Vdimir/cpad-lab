@@ -19,6 +19,7 @@ class Game : public QObject {
 
     QTcpSocket* m_Socket;
 
+    void disconnect();
   signals:
     void youTurn(bool);
     void statusChanged(QString);
