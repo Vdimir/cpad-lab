@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/forms">
+        <file>resources/Main.qml</file>
+    </qresource>
+    <qresource prefix="/data">
+        <file>resources/phonebook.json</file>
+    </qresource>
+</RCC>

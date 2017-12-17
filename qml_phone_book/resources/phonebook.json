@@ -1,0 +1,17 @@
+{
+   "phonebook":
+   [
+        {
+            "name": "John Smith",
+            "phone": "333-333"
+        },
+        {
+            "name": "Karl Marx",
+            "phone": "896-156"
+        },
+        {
+            "name": "Vincent van Gogh",
+            "phone": "123-456"
+        }
+   ]
+}
