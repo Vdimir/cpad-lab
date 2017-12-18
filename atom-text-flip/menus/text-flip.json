@@ -1,0 +1,23 @@
+{
+  "context-menu": {
+    "atom-text-editor": [{
+        "label": "Reverse Selected",
+        "command": "text-flip:reverse"
+      },
+      {
+        "label": "To Upper Case",
+        "command": "text-flip:toupper"
+      },
+
+      {
+        "label": "To Lower Case",
+        "command": "text-flip:tolower"
+      },
+
+      {
+        "label": "Change Case",
+        "command": "text-flip:toopposite"
+      }
+    ]
+  }
+}

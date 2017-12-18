@@ -1,0 +1,8 @@
+{
+  "atom-text-editor": {
+    "ctrl-alt-r": "text-flip:reverse",
+    "ctrl-alt-u": "text-flip:toupper",
+    "ctrl-alt-l": "text-flip:tolower",
+    "ctrl-alt-o": "text-flip:toopposite"
+  }
+}

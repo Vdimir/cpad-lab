@@ -1,0 +1,15 @@
+{
+  "name": "text-flip",
+  "main": "./lib/text-flip",
+  "version": "0.0.0",
+  "description": "Package add functionality to reverse selected text and change case",
+  "keywords": [],
+  "activationCommands": {
+    "atom-workspace": "text-flip:reverse",
+    "atom-workspace": "text-flip:toupper",
+    "atom-workspace": "text-flip:tolower",
+    "atom-workspace": "text-flip:toopposite"
+  },
+  "repository": "https://github.com/Vdimir/cross-lab/tree/master/atom-text-flip",
+  "license": "MIT"
+}
