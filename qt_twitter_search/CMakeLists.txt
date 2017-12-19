@@ -2,7 +2,7 @@ project(twitter-search)
 
 cmake_minimum_required(VERSION 3.2)
 
-find_package(Qt5 REQUIRED Widgets Network Xml networkauth)
+find_package(Qt5 REQUIRED Widgets Network NetworkAuth)
 
 set (CMAKE_CXX_STANDARD 11)
 
@@ -23,6 +23,4 @@ set(SRC_LIST
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
-
-target_link_libraries(twitter-search Qt5::Widgets Qt5::Network
-                                     Qt5::Xml Qt5::networkauth)
+target_link_libraries(twitter-search Qt5::Widgets Qt5::Network Qt5::NetworkAuth)
